@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+.scrollbar-hide {
+    /* IE 和 Edge */
+    -ms-overflow-style: none;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Safari 和 Chrome */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.drag {
+    -webkit-app-region: drag;
+}
+
+.no-drag {
+    -webkit-app-region: no-drag;
+}
