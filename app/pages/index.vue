@@ -9,27 +9,25 @@
             <ul
                 class="grow pt-4 flex flex-col gap-2 pr-12">
                 <li
-                    class="pl-8 w-full bg-blue-500 py-3 rounded-r-full flex items-center gap-3">
+                    v-for="item in menuList"
+                    :class="route.fullPath === item.path ? [
+                        'bg-blue-500',
+                        '*:text-white'
+                    ].join(' ') : [
+                        '*:text-gray-600',
+                        'hover:*:text-blue-500',
+                        'hover:bg-blue-500/10',
+                        'duration-200',
+                        'cursor-pointer'
+                    ].join(' ')"
+                    class="pl-8 w-full py-3 rounded-r-full flex items-center gap-3">
                     <app-icon
-                        name="category"
-                        class="text-white size-6"
+                        :name="item.icon"
+                        class="size-6"
                     />
 
-                    <span
-                        class="text-white">
-                        控制中心
-                    </span>
-                </li>
-                <li
-                    class="pl-8 w-full bg-blue-500 py-3 rounded-r-full flex items-center gap-3">
-                    <app-icon
-                        name="category"
-                        class="text-white size-6"
-                    />
-
-                    <span
-                        class="text-white">
-                        控制中心
+                    <span>
+                        {{item.label}}
                     </span>
                 </li>
             </ul>
@@ -40,4 +38,21 @@
 <script setup lang="ts">
     import AppHeader from "~/components/AppHeader.vue";
     import AppIcon from "~/components/AppIcon.vue";
+    import type { MenuItem } from "~/type";
+
+    const route = useRoute();
+
+    const menuList: MenuItem[] = [
+        {
+            label: "首页",
+            icon: "category",
+            path: "/home"
+        },
+
+        {
+            label: "剪贴板",
+            icon: "order",
+            path: "/clipboard"
+        }
+    ];
 </script>

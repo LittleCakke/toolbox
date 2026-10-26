@@ -19,6 +19,11 @@ export default defineNuxtConfig({
     css: [
         "~/assets/global.css"
     ],
+    routeRules: {
+        "/": {
+            redirect: "/home"
+        }
+    },
     electron: {
         build: [
             {

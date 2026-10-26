@@ -20,9 +20,13 @@ let win: BrowserWindow | null;
 
 const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
 {
-    ipcMain.handle("...", () =>
+    ipcMain.handle("closeApp", (e) =>
     {
         // ...
+        let webContents = e.sender;
+        let curr = BrowserWindow.fromWebContents(webContents);
+
+        curr?.close();
     });
 }
 
@@ -44,6 +48,7 @@ const createWindow = function ()
         }
     });
 
+    //win.webContents.openDevTools();
     win.loadURL("http://localhost:13579");
 
     initIPC(win);

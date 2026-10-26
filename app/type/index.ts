@@ -2,6 +2,13 @@ import { icons } from "~/utils/constants";
 
 export type IconName = keyof typeof icons;
 
+export interface MenuItem
+{
+    label: string;
+    icon: IconName;
+    path: string;
+}
+
 export interface Result<T>
 {
     code?: number;
