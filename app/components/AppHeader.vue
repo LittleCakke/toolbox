@@ -14,10 +14,11 @@
 
 <script setup lang="ts">
     import AppIcon from "~/components/AppIcon.vue";
-    import { ipcRenderer } from "electron";
+
+    const emits = defineEmits(["closeApp"]);
 
     const closeApp = () =>
     {
-        ipcRenderer.invoke("closeApp");
+        emits("closeApp");
     }
 </script>
