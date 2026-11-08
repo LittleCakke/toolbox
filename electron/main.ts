@@ -48,7 +48,7 @@ const createWindow = function ()
         }
     });
 
-    //win.webContents.openDevTools();
+    win.webContents.openDevTools();
     win.loadURL("http://localhost:13579");
 
     initIPC(win);

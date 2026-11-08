@@ -1,9 +1,14 @@
 <template>
     <header
-        class="absolute top-0 left-1/2 -translate-x-1/2 z-10 drag w-[calc(100%-64px)] h-[114px]">
+        class="drag w-full h-16 z-5 flex items-center justify-between px-4">
+        <p
+            class="text-2xl font-semibold text-gray-800">
+            {{title}}
+        </p>
+
         <button
             @click="closeApp"
-            class="absolute right-4 top-[55%] -translate-y-1/2 p-2 rounded-full cursor-pointer *:text-gray-400 hover:*:text-gray-800 hover:bg-gray-300 duration-200 z-20 no-drag">
+            class="rounded-full p-1 cursor-pointer *:text-gray-400 hover:*:text-gray-800 hover:bg-gray-300 duration-200 z-99 no-drag">
             <app-icon
                 class="size-5"
                 name="cross"
@@ -16,6 +21,12 @@
     import AppIcon from "~/components/AppIcon.vue";
 
     const emits = defineEmits(["closeApp"]);
+    defineProps({
+        title: {
+            type: String,
+            required: true,
+        }
+    });
 
     const closeApp = () =>
     {

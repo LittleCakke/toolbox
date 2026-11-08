@@ -13,6 +13,7 @@ import Employee from "~/components/icons/Employee.vue";
 import Empty from "~/components/icons/Empty.vue";
 import FileSync from "~/components/icons/FileSync.vue";
 import Filter from "~/components/icons/Filter.vue";
+import Fingerprint from "~/components/icons/Fingerprint.vue";
 import Goods from "~/components/icons/Goods.vue";
 import Group from "~/components/icons/Group.vue";
 import Hamburger from "~/components/icons/Hamburger.vue";
@@ -25,10 +26,12 @@ import Plus from "~/components/icons/Plus.vue";
 import Schedule from "~/components/icons/Schedule.vue";
 import Search from "~/components/icons/Search.vue";
 import Security from "~/components/icons/Security.vue";
+import Setting from "~/components/icons/Setting.vue";
 import Shirt from "~/components/icons/Shirt.vue";
 import Shoes from "~/components/icons/Shoes.vue";
 import SignOut from "~/components/icons/SignOut.vue";
 import Sofa from "~/components/icons/Sofa.vue";
+import ThreeD from "~/components/icons/ThreeD.vue";
 import Ticket from "~/components/icons/Ticket.vue";
 import Tools from "~/components/icons/Tools.vue";
 import Trash from "~/components/icons/Trash.vue";
@@ -36,6 +39,7 @@ import TreeList from "~/components/icons/TreeList.vue";
 import User from "~/components/icons/User.vue";
 
 export const icons = {
+    "3d": ThreeD,
     "alert": Alert,
     "beer": Beer,
     "bell": Bell,
@@ -51,6 +55,7 @@ export const icons = {
     "empty": Empty,
     "file-sync": FileSync,
     "filter": Filter,
+    "fingerprint": Fingerprint,
     "goods": Goods,
     "group": Group,
     "hamburger": Hamburger,
@@ -63,6 +68,7 @@ export const icons = {
     "schedule": Schedule,
     "search": Search,
     "security": Security,
+    "setting": Setting,
     "shirt": Shirt,
     "shoes": Shoes,
     "sign-out": SignOut,

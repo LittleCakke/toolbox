@@ -1,49 +1,87 @@
 <template>
     <div
         class="size-full bg-gray-100 shadow-xl rounded-md overflow-hidden flex">
-        <app-header @close-app="overlayShow = true" />
-
         <div
-            class="w-75 h-full bg-white flex flex-col">
-            <div class="w-full h-25"></div>
+            :class="collapsed ? 'w-20' : 'w-75'"
+            class="h-full bg-white flex flex-col shadow-lg rounded-r-xl duration-200">
+            <div
+                @click="collapsed = !collapsed"
+                :class="collapsed ? 'justify-center' : 'pl-4'"
+                class="w-full h-25 z-75 flex items-center gap-4">
+                <app-icon
+                    name="3d"
+                    class="size-16"
+                />
+
+                <div
+                    v-if="!collapsed"
+                    class="flex flex-col gap-1">
+                    <p
+                        class="text-gray-800 font-semibold text-xl">
+                        多功能工具箱
+                    </p>
+
+                    <p class="text-gray-600 text-sm">
+                        Multifunctional Toolbox
+                    </p>
+                </div>
+            </div>
             <ul
-                class="grow pt-4 flex flex-col gap-2 pr-12">
+                class="grow pt-4 flex flex-col gap-2 pb-8"
+                :class="collapsed ? 'items-center' : 'pr-12'">
                 <li
                     v-for="item in menuList"
                     @click="goTo(item.path)"
-                    :class="route.fullPath === item.path ? [
+                    :class="[(route.fullPath === item.path ? [
                         'bg-blue-500',
                         '*:text-white'
-                    ].join(' ') : [
+                    ] : [
                         '*:text-gray-600',
                         'hover:*:text-blue-500',
                         'hover:bg-blue-500/10',
                         'duration-200',
                         'cursor-pointer'
-                    ].join(' ')"
-                    class="pl-8 w-full py-3 rounded-r-full flex items-center gap-3">
+                    ]).join(' '), (collapsed ? [
+                        'rounded-full',
+                        'p-3',
+                        'group',
+                        'relative',
+                        'z-20'
+                    ] : [
+                        'rounded-r-full',
+                        'pl-8',
+                        'py-3',
+                        'w-full'
+                    ]).join(' ')].join(' ')"
+                    class="flex items-center gap-3 last:mt-auto duration-200">
                     <app-icon
                         :name="item.icon"
                         class="size-6"
                     />
 
-                    <span>
+                    <span
+                        v-if="!collapsed">
                         {{item.label}}
                     </span>
+
+                    <div
+                        class="hidden group-hover:inline-block absolute top-0 left-[calc(100%+32px)] whitespace-nowrap z-999 p-4 rounded-md bg-gray-800 text-white! text-sm">
+                        {{item.label}}
+                    </div>
                 </li>
             </ul>
         </div>
 
         <div
-            class="grow">
-            <header
-                class="w-full h-[82px] flex items-center px-8">
-                <p
-                    class="text-2xl font-semibold text-gray-800">
-                    {{title}}
-                </p>
-            </header>
-            <nuxt-page />
+            class="grow flex flex-col">
+            <app-header
+                :title="title"
+                @close-app="overlayShow = true"
+            />
+            <div
+                class="grow px-4 pb-4">
+                <nuxt-page />
+            </div>
         </div>
     </div>
 
@@ -123,11 +161,24 @@
             label: "文件传输",
             icon: "file-sync",
             path: "/file-transfer"
+        },
+
+        {
+            label: "密码管理",
+            icon: "fingerprint",
+            path: "/password-management"
+        },
+
+        {
+            label: "设置",
+            icon: "setting",
+            path: "/settings"
         }
     ];
 
     let title = ref("");
     let overlayShow = ref(false);
+    let collapsed = ref(true);
 
     const goTo = (path: string) =>
     {
@@ -146,5 +197,10 @@
         title.value = `${t}`;
     }, {
         immediate: true,
+    });
+
+    onMounted(() =>
+    {
+        //collapsed.value = false;
     });
 </script>
