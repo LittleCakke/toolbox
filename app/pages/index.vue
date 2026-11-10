@@ -1,6 +1,6 @@
 <template>
     <div
-        class="size-full bg-gray-100 shadow-xl rounded-md overflow-hidden flex">
+        class="size-full bg-gray-100 shadow-xl rounded-xl overflow-hidden flex">
         <div
             :class="collapsed ? 'w-20' : 'w-75'"
             class="h-full bg-white flex flex-col shadow-lg rounded-r-xl duration-200">

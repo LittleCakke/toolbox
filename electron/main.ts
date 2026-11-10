@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, Menu, Tray } from "electron";
+import Store from "electron-store";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -6,6 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const isDevelopment = process.env.NODE_ENV === "development";
+
+//const store = new Store();
+Store.initRenderer();
 
 process.env.APP_ROOT = path.join(__dirname, "..");
 
@@ -17,6 +21,16 @@ process.env.VITE_PUBLIC = process.env.VITE_DEV_SERVER_URL
     : RENDERER_DIST;
 
 let win: BrowserWindow | null;
+
+// ipcMain.on("store:get", (e, k: string) =>
+// {
+//     return store.get(k);
+// });
+//
+// ipcMain.on("store:set", (e, k: string, v: any) =>
+// {
+//     store.set(k, v);
+// });
 
 const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
 {

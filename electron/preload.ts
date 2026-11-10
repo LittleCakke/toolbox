@@ -35,6 +35,11 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
     }
 });
 
+// contextBridge.exposeInMainWorld("electronStore", {
+//     get: (key: string) => ipcRenderer.invoke("store:get", key),
+//     set: (key: string, value: any) => ipcRenderer.invoke("store:set", key, value)
+// });
+
 if (process.contextIsolated)
 {
     try
