@@ -2,6 +2,7 @@ import Alert from "~/components/icons/Alert.vue";
 import Beer from "~/components/icons/Beer.vue";
 import Bell from "~/components/icons/Bell.vue";
 import Category from "~/components/icons/Category.vue";
+import Check from "~/components/icons/Check.vue";
 import Code from "~/components/icons/Code.vue";
 import Coins from "~/components/icons/Coins.vue";
 import Computer from "~/components/icons/Computer.vue";
@@ -44,6 +45,7 @@ export const icons = {
     "beer": Beer,
     "bell": Bell,
     "category": Category,
+    "check": Check,
     "code": Code,
     "coins": Coins,
     "computer": Computer,

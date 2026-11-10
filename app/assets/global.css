@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "vue-sonner/style.css";
 
 .scrollbar-hide {
     /* IE 和 Edge */
