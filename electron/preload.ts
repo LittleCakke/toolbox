@@ -5,6 +5,12 @@ window.ipcRenderer = ipcRenderer;
 
 const api = {}
 
+const store = {
+    get: (key: string) => ipcRenderer.invoke("store:get", key),
+    set: (key: string, value: any) => ipcRenderer.invoke("store:set", key, value),
+    delete: (key: string) => ipcRenderer.invoke("store:delete", key)
+}
+
 contextBridge.exposeInMainWorld("ipcRenderer", {
     on(...args: Parameters<typeof ipcRenderer.on>)
     {
@@ -35,10 +41,7 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
     }
 });
 
-// contextBridge.exposeInMainWorld("electronStore", {
-//     get: (key: string) => ipcRenderer.invoke("store:get", key),
-//     set: (key: string, value: any) => ipcRenderer.invoke("store:set", key, value)
-// });
+contextBridge.exposeInMainWorld("electronStore", store);
 
 if (process.contextIsolated)
 {
@@ -56,4 +59,13 @@ else
 {
     window.api = api;
     window.electron = electronAPI;
+}
+
+declare global
+{
+    interface Window
+    {
+        ipcRenderer: typeof ipcRenderer;
+        electronStore: typeof store;
+    }
 }

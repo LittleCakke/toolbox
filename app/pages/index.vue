@@ -76,7 +76,7 @@
             class="grow flex flex-col">
             <app-header
                 :title="title"
-                @close-app="overlayShow = true"
+                @close-app="closeOp"
             />
             <div
                 class="grow px-4 pb-4">
@@ -119,12 +119,14 @@
 
 <script setup lang="ts">
     import { ipcRenderer } from "electron";
+    //import Store from "electron-store";
     import AppHeader from "~/components/AppHeader.vue";
     import AppIcon from "~/components/AppIcon.vue";
     import Overlay from "~/components/Overlay.vue";
     import type { MenuItem } from "~/type";
 
     const route = useRoute();
+    //const store = new Store();
 
     const menuList: MenuItem[] = [
         {
@@ -186,6 +188,18 @@
             navigateTo(path);
     }
 
+    const closeOp = () =>
+    {
+        // let clOp = store.get("closeOp");
+        //
+        // if (clOp === "ask")
+        //     overlayShow.value = true;
+        // else if (clOp === "hidden")
+        //     console.log("隐藏到托盘");
+        // else
+        //     ipcRenderer.invoke("closeApp");
+    }
+
     const closeApp = () =>
     {
         ipcRenderer.invoke("closeApp");
@@ -201,6 +215,7 @@
 
     onMounted(() =>
     {
-        //collapsed.value = false;
+        // let c = store.get("closeOp");
+        // console.log(c);
     });
 </script>

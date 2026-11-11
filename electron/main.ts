@@ -8,8 +8,10 @@ const __dirname = path.dirname(__filename);
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-//const store = new Store();
 Store.initRenderer();
+const store = new Store({
+    name: "user-config"
+});
 
 process.env.APP_ROOT = path.join(__dirname, "..");
 
@@ -22,16 +24,6 @@ process.env.VITE_PUBLIC = process.env.VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 
-// ipcMain.on("store:get", (e, k: string) =>
-// {
-//     return store.get(k);
-// });
-//
-// ipcMain.on("store:set", (e, k: string, v: any) =>
-// {
-//     store.set(k, v);
-// });
-
 const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
 {
     ipcMain.handle("closeApp", (e) =>
@@ -40,12 +32,31 @@ const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
         let webContents = e.sender;
         let curr = BrowserWindow.fromWebContents(webContents);
 
+        // 获取用户配置`关闭应用时操作`
+        // let closeOp = store.get("closeOp");
+        // if (closeOp === "close")
         curr?.close();
+    });
+
+    ipcMain.handle("store:get", (e, k: string) =>
+    {
+        return store.get(k);
+    });
+
+    ipcMain.handle("store:set", (e, k: string, v: any) =>
+    {
+        store.set(k, v);
+    });
+
+    ipcMain.handle("store:delete", (e, k: string) =>
+    {
+        return store.get(k);
     });
 }
 
 const createWindow = function ()
 {
+    console.log(process.env.APP_ROOT)
     win = new BrowserWindow({
         width: 1280 + 64,
         height: 720 + 64,
@@ -57,13 +68,18 @@ const createWindow = function ()
         webPreferences: {
             sandbox: false,
             nodeIntegration: true,
-            contextIsolation: false,
+            contextIsolation: true,
             preload: path.join(MAIN_DIST, "preload.js")
         }
     });
 
     win.webContents.openDevTools();
     win.loadURL("http://localhost:13579");
+
+    // let closeOp = store.get("closeOp");
+    // if (!closeOp)
+    //     store.set("closeOp", "ask");
+    console.log(RENDERER_DIST);
 
     initIPC(win);
 }

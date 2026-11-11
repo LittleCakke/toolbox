@@ -53,10 +53,9 @@
 
 <script setup lang="ts">
     import { toast } from "vue-sonner";
-    import Store from "electron-store";
     import AppIcon from "~/components/AppIcon.vue";
 
-    const store = new Store();
+    const store = window.electronStore;
 
     const tabList = [
         {
@@ -77,8 +76,8 @@
         },
 
         {
-            label: "最小化",
-            value: "minimum",
+            label: "关闭前询问",
+            value: "ask",
         },
 
         {
@@ -88,7 +87,7 @@
     ];
 
     let selectedTab = ref("closeOp");
-    let selectedCloseOption = ref("hidden");
+    let selectedCloseOption = ref("ask");
 
     const closeOptionChange = (option: string) =>
     {
@@ -99,7 +98,9 @@
         }
     }
 
-    onMounted(() =>
+    onMounted(async () =>
     {
+        await store.set("closeOp", "ask");
+        console.log(await store.get("closeOp"));
     });
 </script>
