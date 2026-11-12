@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, Menu, Tray } from "electron";
 import Store from "electron-store";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import os from "os";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,7 +51,25 @@ const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
 
     ipcMain.handle("store:delete", (e, k: string) =>
     {
-        return store.get(k);
+        return store.delete(k);
+    });
+
+    ipcMain.handle("getLocalIPList", (e) =>
+    {
+        let interfaces = os.networkInterfaces();
+        let ipList = [];
+        for (let name of Object.keys(interfaces))
+        {
+            if (name.startsWith("VMware")) break;
+
+            // @ts-ignore
+            for (let iface of interfaces[name])
+            {
+                if (iface.family === "IPv4" && !iface.internal)
+                    ipList.push(iface.address);
+            }
+        }
+        return ipList;
     });
 }
 
