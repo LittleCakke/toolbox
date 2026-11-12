@@ -56,7 +56,6 @@ const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
 
 const createWindow = function ()
 {
-    console.log(process.env.APP_ROOT)
     win = new BrowserWindow({
         width: 1280 + 64,
         height: 720 + 64,
@@ -76,10 +75,20 @@ const createWindow = function ()
     win.webContents.openDevTools();
     win.loadURL("http://localhost:13579");
 
-    // let closeOp = store.get("closeOp");
-    // if (!closeOp)
-    //     store.set("closeOp", "ask");
-    console.log(RENDERER_DIST);
+    // 关闭应用时操作
+    let closeOp = store.get("closeOp");
+    if (!closeOp)
+        store.set("closeOp", "ask");
+
+    // 应用主题 - 浅色、深色、跟随系统
+    let theme = store.get("theme");
+    if (!theme)
+        store.set("theme", "light");
+
+    // 应用是否随系统启动而启动
+    let isStartupWithSys = store.get("isStartupWithSys");
+    if (!isStartupWithSys)
+        store.set("isStartupWithSys", false);
 
     initIPC(win);
 }

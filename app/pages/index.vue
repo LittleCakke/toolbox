@@ -7,7 +7,7 @@
             <div
                 @click="collapsed = !collapsed"
                 :class="collapsed ? 'justify-center' : 'pl-4'"
-                class="w-full h-25 z-75 flex items-center gap-4">
+                class="w-full h-25 z-75 flex items-center gap-4 cursor-pointer">
                 <app-icon
                     name="3d"
                     class="size-16"
@@ -118,15 +118,13 @@
 </template>
 
 <script setup lang="ts">
-    import { ipcRenderer } from "electron";
-    //import Store from "electron-store";
     import AppHeader from "~/components/AppHeader.vue";
     import AppIcon from "~/components/AppIcon.vue";
     import Overlay from "~/components/Overlay.vue";
     import type { MenuItem } from "~/type";
 
     const route = useRoute();
-    //const store = new Store();
+    let store: typeof window.electronStore;
 
     const menuList: MenuItem[] = [
         {
@@ -188,21 +186,21 @@
             navigateTo(path);
     }
 
-    const closeOp = () =>
+    const closeOp = async () =>
     {
-        // let clOp = store.get("closeOp");
-        //
-        // if (clOp === "ask")
-        //     overlayShow.value = true;
-        // else if (clOp === "hidden")
-        //     console.log("隐藏到托盘");
-        // else
-        //     ipcRenderer.invoke("closeApp");
+        let clOp = await store.get("closeOp");
+
+        if (clOp === "ask")
+            overlayShow.value = true;
+        else if (clOp === "hidden")
+            console.log("隐藏到托盘");
+        else
+            window.ipcRenderer.invoke("closeApp");
     }
 
     const closeApp = () =>
     {
-        ipcRenderer.invoke("closeApp");
+        window.ipcRenderer.invoke("closeApp");
     }
 
     watch(() => route.fullPath, v =>
@@ -217,5 +215,6 @@
     {
         // let c = store.get("closeOp");
         // console.log(c);
+        store = window.electronStore;
     });
 </script>

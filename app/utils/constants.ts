@@ -21,6 +21,7 @@ import Hamburger from "~/components/icons/Hamburger.vue";
 import Hexagon from "~/components/icons/Hexagon.vue";
 import Loading from "~/components/icons/Loading.vue";
 import Mail from "~/components/icons/Mail.vue";
+import Moon from "~/components/icons/Moon.vue";
 import NotepadText from "~/components/icons/NotepadText.vue";
 import Order from "~/components/icons/Order.vue";
 import Plus from "~/components/icons/Plus.vue";
@@ -32,6 +33,7 @@ import Shirt from "~/components/icons/Shirt.vue";
 import Shoes from "~/components/icons/Shoes.vue";
 import SignOut from "~/components/icons/SignOut.vue";
 import Sofa from "~/components/icons/Sofa.vue";
+import Sun from "~/components/icons/Sun.vue";
 import ThreeD from "~/components/icons/ThreeD.vue";
 import Ticket from "~/components/icons/Ticket.vue";
 import Tools from "~/components/icons/Tools.vue";
@@ -64,6 +66,7 @@ export const icons = {
     "hexagon": Hexagon,
     "loading": Loading,
     "mail": Mail,
+    "moon": Moon,
     "notepad-text": NotepadText,
     "order": Order,
     "plus": Plus,
@@ -75,6 +78,7 @@ export const icons = {
     "shoes": Shoes,
     "sign-out": SignOut,
     "sofa": Sofa,
+    "sun": Sun,
     "ticket": Ticket,
     "tools": Tools,
     "trash": Trash,

@@ -43,9 +43,63 @@
                     </li>
                 </ul>
 
+                <!-- 分割线 -->
                 <div
                     class="w-full my-2 h-px bg-gray-100 rounded-full"
                 />
+
+                <!-- 主题 -->
+                <p
+                    class="text-gray-800 text-xl font-semibold w-full">
+                    主题
+                </p>
+
+                <ul
+                    class="w-full grid grid-cols-3 bg-gray-200 rounded-md gap-2 *:text-gray-600 *:text-sm p-2">
+                    <li
+                        v-for="t in themeOptions"
+                        :key="t.value"
+                        @click="themeChange(t.value)"
+                        :class="t.value === selectedTheme ? 'bg-white text-blue-500! cursor-default' : 'cursor-pointer'"
+                        class="py-2 flex justify-center items-center rounded-md gap-2 duration-200">
+                        <app-icon
+                            :name="t.icon"
+                            class="size-4"
+                        />
+                        <span>
+                            {{t.label}}
+                        </span>
+                    </li>
+                </ul>
+
+                <!-- 分割线 -->
+                <div
+                    class="w-full my-2 h-px bg-gray-100 rounded-full"
+                />
+
+                <!-- 开机自启动 -->
+                <p
+                    class="text-gray-800 text-xl font-semibold w-full">
+                    开机自启动
+                </p>
+
+                <div
+                    class="w-full flex justify-between items-center">
+                    <p
+                        class="text-gray-600 text-sm">
+                        是否将应用设置为随系统启动？
+                    </p>
+
+                    <div
+                        @click="isStartupWithSysEnabled = !isStartupWithSysEnabled"
+                        class="size-5 border border-gray-300 hover:border-gray-600 duration-200 rounded-md cursor-pointer flex items-center justify-center">
+                        <app-icon
+                            v-if="isStartupWithSysEnabled"
+                            name="check"
+                            class="size-4"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -54,6 +108,14 @@
 <script setup lang="ts">
     import { toast } from "vue-sonner";
     import AppIcon from "~/components/AppIcon.vue";
+    import type { IconName } from "~/type";
+
+    interface ThemeOption
+    {
+        label: string;
+        value: string;
+        icon: IconName;
+    }
 
     const store = window.electronStore;
 
@@ -66,6 +128,16 @@
         {
             label: "主题",
             anchor: "theme"
+        },
+
+        {
+            label: "开机自启动",
+            anchor: "startWithSys"
+        },
+
+        {
+            label: "语言",
+            anchor: "languages"
         }
     ];
 
@@ -86,21 +158,61 @@
         }
     ];
 
-    let selectedTab = ref("closeOp");
-    let selectedCloseOption = ref("ask");
+    const themeOptions: ThemeOption[] = [
+        {
+            label: "浅色",
+            icon: "sun",
+            value: "light",
+        },
 
-    const closeOptionChange = (option: string) =>
+        {
+            label: "深色",
+            icon: "moon",
+            value: "dark",
+        },
+
+        {
+            label: "跟随系统",
+            icon: "computer",
+            value: "system"
+        }
+    ]
+
+    let selectedTab = ref("closeOp");
+    let selectedCloseOption = ref("");
+    let selectedTheme = ref("");
+    let isStartupWithSysEnabled = ref(false);
+
+    const closeOptionChange = async (option: string) =>
     {
         if (selectedCloseOption.value !== option)
         {
             selectedCloseOption.value = option;
             toast.success("配置已更新");
+            await store.set("closeOp", option);
         }
     }
 
+    const themeChange = async (th: string) =>
+    {
+        if (selectedTheme.value !== th)
+        {
+            selectedTheme.value = th;
+            toast.success("配置已更新");
+            await store.set("theme", th);
+        }
+    }
+
+    watch(() => isStartupWithSysEnabled.value, async v =>
+    {
+        await store.set("isStartupWithSys", v);
+        toast.success("配置已更新");
+    });
+
     onMounted(async () =>
     {
-        await store.set("closeOp", "ask");
-        console.log(await store.get("closeOp"));
+        selectedCloseOption.value = await store.get("closeOp");
+        selectedTheme.value = await store.get("theme");
+        isStartupWithSysEnabled.value = await store.get("isStartupWithSys");
     });
 </script>

@@ -60,12 +60,3 @@ else
     window.api = api;
     window.electron = electronAPI;
 }
-
-declare global
-{
-    interface Window
-    {
-        ipcRenderer: typeof ipcRenderer;
-        electronStore: typeof store;
-    }
-}
