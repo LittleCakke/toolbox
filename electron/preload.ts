@@ -3,7 +3,12 @@ import { electronAPI } from "@electron-toolkit/preload";
 
 window.ipcRenderer = ipcRenderer;
 
-const api = {}
+const api = {
+    fetchInitContentFromClipboard(cb)
+    {
+        ipcRenderer.on("fetchInitContentFromClipboard", (_, value) => cb(value));
+    }
+}
 
 const store = {
     get: (key: string) => ipcRenderer.invoke("store:get", key),
@@ -42,6 +47,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
 });
 
 contextBridge.exposeInMainWorld("electronStore", store);
+
+contextBridge.exposeInMainWorld("electronAPI", api);
 
 if (process.contextIsolated)
 {

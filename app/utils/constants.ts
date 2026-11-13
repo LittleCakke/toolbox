@@ -1,4 +1,5 @@
 import Alert from "~/components/icons/Alert.vue";
+import ArrowDown from "~/components/icons/ArrowDown.vue";
 import Beer from "~/components/icons/Beer.vue";
 import Bell from "~/components/icons/Bell.vue";
 import Category from "~/components/icons/Category.vue";
@@ -44,6 +45,7 @@ import User from "~/components/icons/User.vue";
 export const icons = {
     "3d": ThreeD,
     "alert": Alert,
+    "arrow-down": ArrowDown,
     "beer": Beer,
     "bell": Bell,
     "category": Category,

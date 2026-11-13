@@ -100,6 +100,54 @@
                         />
                     </div>
                 </div>
+
+                <!-- 应用语言 -->
+                <p
+                    class="text-gray-800 text-xl font-semibold w-full">
+                    语言
+                </p>
+
+                <div
+                    class="w-full flex justify-between items-center">
+                    <p
+                        class="text-gray-600 text-sm">
+                        选择应用显示语言
+                    </p>
+
+                    <div
+                        class="w-50 text-sm relative group">
+                        <div
+                            @click="languageOptionShow = !languageOptionShow"
+                            class="w-full py-2 px-4 flex justify-between items-center *:text-gray-400 group-hover:*:text-gray-600 duration-200 cursor-pointer rounded-md border border-gray-200 hover:border-gray-400">
+                            <span>
+                                中文
+                            </span>
+
+                            <app-icon
+                                name="arrow-down"
+                                class="size-4"
+                            />
+                        </div>
+
+                        <transition>
+                            <ul
+                                v-if="languageOptionShow"
+                                class="w-full absolute left-0 top-[calc(100%+8px)] bg-white rounded-md shadow-lg border border-gray-200 flex flex-col">
+                                <li
+                                    v-for="l in languageOptions"
+                                    class="w-full py-2 px-4 flex items-center justify-between *:text-gray-400 hover:*:text-gray-600 duration-200 cursor-pointer">
+                                    <p>
+                                        {{l.label}}
+                                    </p>
+
+                                    <p>
+                                        {{l.value}}
+                                    </p>
+                                </li>
+                            </ul>
+                        </transition>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -137,7 +185,7 @@
 
         {
             label: "语言",
-            anchor: "languages"
+            anchor: "language"
         }
     ];
 
@@ -176,12 +224,26 @@
             icon: "computer",
             value: "system"
         }
-    ]
+    ];
+
+    const languageOptions = [
+        {
+            label: "中文",
+            value: "Chinese",
+        },
+
+        {
+            label: "英文",
+            value: "English"
+        }
+    ];
 
     let selectedTab = ref("closeOp");
     let selectedCloseOption = ref("");
     let selectedTheme = ref("");
     let isStartupWithSysEnabled = ref(false);
+    let selectedLanguage = ref("");
+    let languageOptionShow = ref(false);
 
     const closeOptionChange = async (option: string) =>
     {
@@ -214,5 +276,6 @@
         selectedCloseOption.value = await store.get("closeOp");
         selectedTheme.value = await store.get("theme");
         isStartupWithSysEnabled.value = await store.get("isStartupWithSys");
+        selectedLanguage.value = await store.get("language");
     });
 </script>

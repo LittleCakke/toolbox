@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu, Tray } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, Tray, clipboard } from "electron";
 import Store from "electron-store";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -73,7 +73,7 @@ const initIPC = (mainWindow: BrowserWindow, t?: Tray) =>
     });
 }
 
-const createWindow = function ()
+const createWindow = async function ()
 {
     win = new BrowserWindow({
         width: 1280 + 64,
@@ -94,6 +94,11 @@ const createWindow = function ()
     win.webContents.openDevTools();
     win.loadURL("http://localhost:13579");
 
+    // 从剪贴板获取初始内容并发送给渲染进程
+    let initCntFromClip = await clipboard.readText();
+    console.log(initCntFromClip);
+    win.webContents.send("fetchInitContentFromClipboard", { data: "initCntFromClip" });
+
     // 关闭应用时操作
     let closeOp = store.get("closeOp");
     if (!closeOp)
@@ -108,6 +113,11 @@ const createWindow = function ()
     let isStartupWithSys = store.get("isStartupWithSys");
     if (!isStartupWithSys)
         store.set("isStartupWithSys", false);
+
+    // 应用默认语言
+    let language = store.get("language");
+    if (!language)
+        store.set("language", "zh-cn");
 
     initIPC(win);
 }
